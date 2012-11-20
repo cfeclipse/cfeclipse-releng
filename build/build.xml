@@ -1,0 +1,47 @@
+<project name="distro.build" default="build" basedir="./" xmlns:antcontrib="antlib:net.sf.antcontrib">
+
+	<property name="featurename" value="org.cfeclipse.cfml.releng" />
+	<!--
+	<property name="product.checkout.url" value="org.cfeclipse.cfml.releng" />
+	-->
+	<loadproperties srcfile="build.properties"/>
+	<import file="${cfdistro.build.file}"/>
+
+	<target name="build">
+		<abspath property="src.dir" path="${src.dir}" />
+		<abspath property="dist.dir" path="${dist.dir}" />
+		<abspath property="product.zip.dir" path="${dist.dir}/product" />
+		<delete dir="${dist.dir}"/>
+		<mkdir dir="${dist.dir}"/>
+		<property name="script.dir" location="${src.dir}/org.cfeclipse.releng"/>
+		<property name="site.suffix" value="-dev"/>
+		<antcontrib:var name="dist.p2.dir" value="${dist.dir}/standalone-update${site.suffix}"/>
+		<bucky.headless script="${script.dir}/promote.bmscript">
+			<sysproperty key="script.dir" value="${script.dir}" />
+			<sysproperty key="src.dir" value="${src.dir}" />
+			<sysproperty key="dist.dir" value="${dist.dir}" />
+			<sysproperty key="product.zip.dir" value="${product.zip.dir}" />
+			<sysproperty key="dist.p2.dir" value="${dist.p2.dir}" />
+		</bucky.headless>
+	</target>	
+
+	<target name="build.standalone">
+		<abspath property="src.dir" path="${src.dir}" />
+		<abspath property="dist.dir" path="${dist.dir}" />
+		<abspath property="product.zip.dir" path="${dist.dir}/standalone" />
+		<delete dir="${dist.dir}"/>
+		<mkdir dir="${dist.dir}"/>
+		<property name="script.dir" location="${src.dir}/org.cfeclipse.standalone.releng"/>
+		<property name="site.suffix" value="-dev"/>
+		<property name="dist.p2.dir" location="${dist.dir}/standalone-update${site.suffix}"/>
+		<bucky.headless script="${script.dir}/product.bmscript">
+			<sysproperty key="script.dir" value="${script.dir}" />
+			<sysproperty key="src.dir" value="${src.dir}" />
+			<sysproperty key="dist.dir" value="${dist.dir}" />
+			<sysproperty key="product.zip.dir" value="${product.zip.dir}" />
+			<sysproperty key="dist.p2.dir" value="${dist.p2.dir}" />
+		</bucky.headless>
+	</target>	
+	
+	
+</project>

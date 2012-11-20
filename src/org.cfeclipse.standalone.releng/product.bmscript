@@ -1,0 +1,6 @@
+setpref targetPlatformPath="${target.platform.dir}"
+import -P ${script.dir}/build.properties ${src.dir}/org.cfeclipse.standalone.releng/build.cquery
+#build -P ${script.dir}/build.properties --thorough
+#junit -P ${script.dir}/build.properties -l org.eclipse.buckminster.tests/AllTests.launch -o ${buckminster.output.root}/testReport.xml --terseXML --flatXML
+perform -D target.os=* -D target.ws=* -D target.arch=* org.cfeclipse.standalone.update#site.p2
+perform -D target.os=macosx -D target.ws=cocoa -D target.arch=x86_64 -D dist.p2.dir="${dist.p2.dir}" -D dist.dir="${dist.dir}" -D product.zip.dir="${product.zip.dir}" org.cfeclipse.standalone.releng#product.zip

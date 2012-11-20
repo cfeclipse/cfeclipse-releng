@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rm:rmap xmlns:bc="http://www.eclipse.org/buckminster/Common-1.0" xmlns:rm="http://www.eclipse.org/buckminster/RMap-1.0">
+  <rm:property key="eclipse.download.prefix" value="http://download.eclipse.org"/>
+  <rm:property key="eclipse.svn.prefix" value="http://dev.eclipse.org/svnroot"/>
+  <rm:property key="build.type" value="R"/>
+  <rm:property key="git.clone.dir" value="${src.dir}"/>
+  <rm:property key="buckminster.clone" value="cfeclipse"/>
+  <rm:locator pattern="^org\.cfeclipse\.(releng|site)$" searchPathRef="cfeclipse-releng"/>
+  <rm:locator pattern="^org\.cfeclipse\.standalone(\..+)?" searchPathRef="cfeclipse-releng"/>
+  <rm:locator pattern="^org\.cfeclipse\.cfml(\..+)?" searchPathRef="buckminster"/>
+  <rm:locator pattern="^org\.cfeclipse\.cfeclipsecall(\..+)?" searchPathRef="buckminster"/>
+  <rm:locator pattern="^org\.mxunit\..*" searchPathRef="mxunit" />
+
+  <rm:locator pattern="^org\.eclipse\.egit\.fetchfactory(\..+)?$" searchPathRef="git.pde"/>
+  <rm:locator pattern="^org\.eclipse\.[ej]git(\..+)?$" searchPathRef="git"/>
+  <rm:locator pattern="^com\.atlassian(\..+)?" searchPathRef="atlassian"/>
+  <rm:locator pattern="^org\.eclipse\.mylyn(\..+)?" searchPathRef="mylyn"/>
+  <rm:locator pattern="^org\.tigris\.subversion(\..+)?" searchPathRef="subclipse"/>
+  <rm:locator pattern="^org\.tmatesoft(\..+)?" searchPathRef="subclipse"/>
+  <rm:locator pattern="^com\.trilead\.ssh2(\..+)?" searchPathRef="subclipse"/>
+  <rm:locator pattern="^net\.java\.dev\.jna(\..+)?" searchPathRef="subclipse"/>
+  <rm:locator searchPathRef="platform" failOnError="false"/>
+  <rm:locator searchPathRef="juno" failOnError="false"/>
+  <rm:locator searchPathRef="orbit"/>
+
+  <rm:searchPath name="cfeclipse-releng">
+		<rm:provider componentTypes="buckminster,osgi.bundle,eclipse.feature"
+			readerType="local" source="true" mutable="false">
+			<rm:uri format="{0}/{1}">
+	          	<bc:propertyRef key="src.dir" />
+				<bc:propertyRef key="buckminster.component" />
+			</rm:uri>
+		</rm:provider>
+  </rm:searchPath>
+
+
+  <rm:searchPath name="buckminster">
+    <rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="git">
+      <rm:property key="git.remote.uri" value="git://github.com/cfeclipse/cfeclipse.git"/>
+      <rm:uri format="{0}/{1},{2}">
+        <bc:propertyRef key="git.clone.dir"/>
+        <bc:propertyRef key="buckminster.clone"/>
+        <bc:propertyRef key="buckminster.component"/>
+      </rm:uri>
+    </rm:provider>
+  </rm:searchPath>
+
+	<rm:searchPath name="mxunit">
+		<rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
+			<rm:uri
+				format="http://mxunit.org/update" />
+		</rm:provider>
+	</rm:searchPath>
+
+	<rm:searchPath name="atlassian">
+		<rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
+			<rm:uri
+				format="http://update.atlassian.com/atlassian-eclipse-plugin/e3.8/" />
+		</rm:provider>
+	</rm:searchPath>
+
+  <rm:searchPath name="platform">
+    <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
+      <rm:property key="buckminster.source" value="false"/>
+      <rm:property key="buckminster.mutable" value="false"/>
+      <rm:uri format="{0}/eclipse/updates/4.2/R-4.2.1-201209141800">
+        <bc:propertyRef key="eclipse.download.prefix"/>
+      </rm:uri>
+    </rm:provider>
+  </rm:searchPath>
+  <rm:searchPath name="juno">
+    <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
+      <rm:property key="buckminster.source" value="false"/>
+      <rm:property key="buckminster.mutable" value="false"/>
+      <rm:uri format="{0}/releases/juno/201209280900">
+        <bc:propertyRef key="eclipse.download.prefix"/>
+      </rm:uri>
+    </rm:provider>
+  </rm:searchPath>
+  <rm:searchPath name="orbit">
+    <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
+      <rm:property key="buckminster.source" value="false"/>
+      <rm:property key="buckminster.mutable" value="false"/>
+      <rm:uri format="{0}/tools/orbit/downloads/drops/R20120526062928/repository">
+        <bc:propertyRef key="eclipse.download.prefix"/>
+      </rm:uri>
+    </rm:provider>
+  </rm:searchPath>
+  <rm:searchPath name="subclipse">
+    <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
+      <rm:property key="buckminster.source" value="false"/>
+      <rm:property key="buckminster.mutable" value="false"/>
+      <rm:uri format="http://subclipse.tigris.org/update_1.8.x"/>
+    </rm:provider>
+  </rm:searchPath>
+  <rm:searchPath name="mylyn">
+    <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
+      <rm:property key="buckminster.source" value="false"/>
+      <rm:property key="buckminster.mutable" value="false"/>
+      <rm:uri format="http://download.eclipse.org/mylyn/releases/latest"/>
+    </rm:provider>
+  </rm:searchPath>
+  <rm:searchPath name="git">
+    <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
+      <rm:property key="buckminster.source" value="false"/>
+      <rm:property key="buckminster.mutable" value="false"/>
+      <rm:uri format="{0}/egit/updates-2.0">
+        <bc:propertyRef key="eclipse.download.prefix"/>
+      </rm:uri>
+    </rm:provider>
+  </rm:searchPath>
+  <rm:searchPath name="git.pde">
+    <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
+      <rm:property key="buckminster.source" value="false"/>
+      <rm:property key="buckminster.mutable" value="false"/>
+      <rm:uri format="{0}/egit/pde/updates-nightly">
+        <bc:propertyRef key="eclipse.download.prefix"/>
+      </rm:uri>
+    </rm:provider>
+  </rm:searchPath>
+</rm:rmap>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.cfeclipse.update"
+      label="CFEclipse Update Site"
+      version="1.0.0"
+      provider-name="CFEclipse Project">
+
+   <url>
+      <discovery label="CFEclipse discovery site" url="http://cfeclipse.org/update"/>
+      <discovery label="MXUnit discovery site" url="http://mxunit.org/update"/>
+      <discovery label="Snippets discovery site" url="http://cfeclipse.org/snippets/update"/>
+   </url>
+
+   <includes
+         id="org.cfeclipse.cfml.feature"
+         version="0.0.0"/>
+
+</feature>
