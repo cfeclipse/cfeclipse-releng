@@ -7,7 +7,7 @@
   <rm:property key="buckminster.clone" value="cfeclipse"/>
   <rm:locator pattern="^org\.cfeclipse\.(releng|update)$" searchPathRef="cfeclipse-releng"/>
   <rm:locator pattern="^org\.cfeclipse\.standalone\.update$" searchPathRef="cfeclipse-releng"/>
-  <rm:locator pattern="^org\.cfeclipse\.cfml(\..+)?" searchPathRef="buckminster"/>
+  <rm:locator pattern="^org\.cfeclipse\.cfml(.+)?" searchPathRef="buckminster"/>
   <rm:locator pattern="^org\.cfeclipse\.cfeclipsecall(\..+)?" searchPathRef="buckminster"/>
   <rm:locator pattern="^org\.mxunit\..*" searchPathRef="mxunit" />
 

@@ -39,9 +39,21 @@
                 <cs:property key="targets" value="clear.directory"/>
             </cs:actorProperties>
             <cs:properties>
-                <cs:property key="directory" value="${dist.p2.dir}"/>
+                <cs:property key="directory" value="${plugin.p2.dir}"/>
             </cs:properties>
         </cs:public>
+
+        <cs:public name="merge.site" actor="ant">
+            <cs:actorProperties>
+                <cs:property key="buildFile" value="buckminster.ant"/>
+                <cs:property key="targets" value="merge.site"/>
+            </cs:actorProperties>
+            <cs:properties>
+                <cs:property key="p2.source" value="${plugin.p2.source}"/>
+                <cs:property key="p2.dest" value="${plugin.p2.dest}"/>
+            </cs:properties>
+        </cs:public>
+        
         <cs:public name="promote.site.eclipse" actor="ant">
             <cs:actorProperties>
                 <cs:property key="buildFileId" value="buckminster.pdetasks"/>
@@ -51,7 +63,7 @@
                 <cs:attribute name="site.p2" component="org.cfeclipse.update"/>
                 <cs:attribute name="clear.site.eclipse" contributor="false"/>
             </cs:prerequisites>
-            <cs:products alias="action.output" base="${dist.p2.dir}"/>
+            <cs:products alias="action.output" base="${plugin.p2.dir}"/>
         </cs:public>
         <cs:public name="promote.sites.to.archive" actor="ant">
             <cs:actorProperties>

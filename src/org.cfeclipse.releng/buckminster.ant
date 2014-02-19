@@ -12,4 +12,11 @@
 		<fail message="Directory &quot;${directory}&quot; is invalid"/>
 	</target>
 	<target name="clear.directory" depends="do.clear.directory,dont.clear.directory"/>
+
+	<target name="merge.site">
+		<echo message="merging ${p2.source} into ${p2.dest}"/>
+		<p2.publish.featuresAndBundles source="${p2.source}" repository="file://${p2.dest}">
+		</p2.publish.featuresAndBundles>
+	</target>
+
 </project>

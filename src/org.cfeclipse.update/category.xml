@@ -3,9 +3,17 @@
    <feature id="org.eclipse.cfml.feature" version="0.0.0">
       <category name="cfeclipse"/>
    </feature>
+   <feature id="org.cfeclipse.cfml.docsharesupport.feature" version="0.0.0">
+      <category name="optional"/>
+   </feature>
    <category-def name="cfeclipse" label="CFEclipse">
       <description>
-         CFE
+         CFEclipse
+      </description>
+   </category-def>
+   <category-def name="optional" label="CFEclipse (optional)">
+      <description>
+         Optional
       </description>
    </category-def>
 </site>

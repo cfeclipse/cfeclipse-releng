@@ -1,12 +1,25 @@
 <project name="distro.build" default="build" basedir="./" xmlns:antcontrib="antlib:net.sf.antcontrib">
 
-	<property name="featurename" value="org.cfeclipse.cfml.releng" />
 	<!--
+	<property name="featurename" value="org.cfeclipse.cfml.releng" />
 	<property name="product.checkout.url" value="org.cfeclipse.cfml.releng" />
 	-->
 	<loadproperties srcfile="build.properties"/>
 	<import file="${cfdistro.build.file}"/>
 
+	<property name="deploy.quiet" value="true"/>
+	<property name="site.suffix" value="-dev"/>
+	<property name="plugin.p2.dir" value="${dist.dir}/update${site.suffix}"/>
+	<property name="plugin.p2.release.dir" value="${dist.dir}/oupdate"/>
+	<property name="remote.cfeclipse.sites.dir" value="from.cfeclipse.properties"/>
+	<property name="remote.p2.dir" value="${remote.sites.dir}/update${site.suffix}"/>
+	<property name="standalone.p2.dir" location="${dist.dir}/standalone-update${site.suffix}"/>
+	<property name="standalone.p2.zip.dir" location="${dist.dir}/standalone-archivedsite${site.suffix}/"/>
+	<property name="remote.cfeclipse.standalone.dir" value="from.cfeclipse.properties"/>
+	<property name="remote.cfeclipse.standalone.zip.dir" value="${remote.standalone.dir}"/>
+	<property name="remote.cfeclipse.standalone.p2.dir" location="${remote.standalone.dir}/update${site.suffix}"/>
+	<property name="branchTagPath" value="master"/>
+	
 	<target name="build">
 		<abspath property="src.dir" path="${src.dir}" />
 		<abspath property="dist.dir" path="${dist.dir}" />
@@ -14,16 +27,16 @@
 		<delete dir="${dist.dir}"/>
 		<mkdir dir="${dist.dir}"/>
 		<property name="script.dir" location="${src.dir}/org.cfeclipse.releng"/>
-		<property name="site.suffix" value="-dev"/>
-		<antcontrib:var name="dist.p2.dir" value="${dist.dir}/standalone-update${site.suffix}"/>
 		<bucky.headless script="${script.dir}/promote.bmscript">
+			<sysproperty key="branchTagPath" value="${branchTagPath}" />
 			<sysproperty key="script.dir" value="${script.dir}" />
 			<sysproperty key="src.dir" value="${src.dir}" />
 			<sysproperty key="dist.dir" value="${dist.dir}" />
 			<sysproperty key="product.zip.dir" value="${product.zip.dir}" />
-			<sysproperty key="dist.p2.dir" value="${dist.p2.dir}" />
+			<sysproperty key="plugin.p2.dir" value="${plugin.p2.dir}" />
 		</bucky.headless>
-	</target>	
+		<antcontrib:runtarget target="merge.site.if.release" />
+	</target>
 
 	<target name="build.standalone">
 		<abspath property="src.dir" path="${src.dir}" />
@@ -32,16 +45,91 @@
 		<delete dir="${dist.dir}"/>
 		<mkdir dir="${dist.dir}"/>
 		<property name="script.dir" location="${src.dir}/org.cfeclipse.standalone.releng"/>
-		<property name="site.suffix" value="-dev"/>
-		<property name="dist.p2.dir" location="${dist.dir}/standalone-update${site.suffix}"/>
 		<bucky.headless script="${script.dir}/product.bmscript">
+			<sysproperty key="branchTagPath" value="${branchTagPath}" />
 			<sysproperty key="script.dir" value="${script.dir}" />
 			<sysproperty key="src.dir" value="${src.dir}" />
 			<sysproperty key="dist.dir" value="${dist.dir}" />
 			<sysproperty key="product.zip.dir" value="${product.zip.dir}" />
-			<sysproperty key="dist.p2.dir" value="${dist.p2.dir}" />
+			<sysproperty key="standalone.p2.dir" value="${standalone.p2.dir}" />
+			<sysproperty key="standalone.p2.zip.dir" value="${standalone.p2.zip.dir}" />
+			<sysproperty key="plugin.p2.dir" value="${plugin.p2.dir}" />
 		</bucky.headless>
+		<antcontrib:runtarget target="merge.site.if.release" />
 	</target>	
+
+	<target name="merge.site.if.release">
+		<abspath property="src.dir" path="${src.dir}" />
+		<antcontrib:if>
+			<equals arg1="${site.suffix}" arg2=""/>
+			<then>
+				<bucky.headless script="${src.dir}/org.cfeclipse.releng/merge.bmscript">
+					<sysproperty key="plugin.p2.source" value="${plugin.p2.release.dir}" />
+					<sysproperty key="plugin.p2.dest" value="${plugin.p2.dir}" />
+				</bucky.headless>
+			</then>
+		</antcontrib:if>
+	</target>
+
+	<target name="test.tweet">
+		<git command="log" dir="${src.dir}/cfeclipse" verbose="false"><args><arg value="-n"/><arg value="1"/><arg value="origin/master"/></args></git>
+		<antcontrib:propertyregex property="info.smaller"
+			input="${git.results}" global="true"
+			regexp="(?s)commit (\w{7}).+?Author\: (\w+[\w ]+).+?Date:.+?[\r\n]+[^\S]+(.+)\s$"
+			select=" #CFML \1 \2 > \3"
+			casesensitive="false" />
+		<echo message="${info.smaller}" />
+	</target>
+
+	<target name="build.and.scp" depends="build">
+
+		<antcontrib:var name="remote" value="cfeclipse"/>
+		<cfdistro.setremote />
+		<loadproperties srcfile="${src.dir}/org.cfeclipse.standalone.releng/build.properties"/>
+		<scp port="${remote.host.port}" file="removePreviousBuilds.sh" todir="${remote.user}:${remote.user.pass}@${remote.host}:${remote.sites.dir}/${site.suffix}" trust="true" verbose="false" />
+		<sshexec host="${remote.host}"
+			username="${remote.user}"
+		 	port="${remote.host.port}"
+			password="${remote.user.pass}"
+			command="/bin/sh ${remote.sites.dir}/update${site.suffix}/removePreviousBuilds.sh"/>
+
+		<echo message="scp update site"/>
+		<deploy-scp toDir="${remote.user}@${remote.host}:${remote.p2.dir}" fromdir="${plugin.p2.dir}">
+			<scpfiles>
+				<fileset dir="${plugin.p2.dir}">
+					<include name="**/*"/>
+				</fileset>
+			</scpfiles>
+		</deploy-scp>
+		
+	</target>
+	
+
+	<target name="build.standalone.and.scp">
+
+		<antcontrib:var name="remote" value="cfeclipse"/>
+		<cfdistro.setremote />
+		<loadproperties srcfile="${src.dir}/org.cfeclipse.standalone.releng/build.properties"/>
+
+		<echo message="scp update standalone"/>
+		<deploy-scp toDir="${remote.user}@${remote.host}:${remote.standalone.p2.dir}" fromdir="${standalone.p2.dir}">
+			<scpfiles>
+				<fileset dir="${standalone.p2.dir}">
+					<include name="**/*"/>
+				</fileset>
+			</scpfiles>
+		</deploy-scp>
+		
+		<echo message="scp standalone zip"/>
+		<deploy-scp toDir="${remote.user}@${remote.host}:${remote.standalone.zip.dir}" fromdir="${dist.dir}/standalone/zip/">
+			<scpfiles>
+				<fileset dir="${dist.dir}/standalone/zip/">
+					<include name="**/*"/>
+				</fileset>
+			</scpfiles>
+		</deploy-scp>
+		
+	</target>
 	
 	
 </project>

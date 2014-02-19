@@ -4,8 +4,9 @@
 
 setpref targetPlatformPath="${target.platform.dir}"
 #importtargetdefinition -A "${script.dir}/indigo.target"
-import -P ${script.dir}/build.properties ${src.dir}/org.cfeclipse.releng/build.cquery
-build -P ${script.dir}/build.properties --thorough
+##generate signing keys: keytool -genkeypair -keystore <path to keystore file> -alias signing
+import -D branchTagPath="${branchTagPath}" -P ${user.home}/cfeclipse.properties -P ${script.dir}/build.properties ${src.dir}/org.cfeclipse.releng/build.cquery
+build -P ${user.home}/cfeclipse.properties -P ${script.dir}/build.properties --thorough
 #perform -D target.os=* -D target.ws=* -D target.arch=* -D site.pack200=true org.cfeclipse.update#site.p2
 #junit -P ${script.dir}/build.properties -l org.eclipse.buckminster.tests/AllTests.launch -o ${buckminster.output.root}/testReport.xml --terseXML --flatXML
-perform -P ${script.dir}/build.properties -D dist.p2.dir="${dist.p2.dir}" -D dist.dir="${dist.dir}" -D site.pack200=true org.cfeclipse.releng#promote
+perform -D dist.dir="${dist.dir}" -D site.pack200=true -P ${user.home}/cfeclipse.properties -P ${script.dir}/build.properties -D plugin.p2.dir="${plugin.p2.dir}" org.cfeclipse.releng#promote

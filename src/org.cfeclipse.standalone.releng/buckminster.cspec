@@ -39,7 +39,7 @@
                 <cs:property key="targets" value="clear.directory"/>
             </cs:actorProperties>
             <cs:properties>
-                <cs:property key="directory" value="${cfeclipse.download.area}/update${site.suffix}/"/>
+                <cs:property key="directory" value="${standalone.p2.dir}"/>
             </cs:properties>
         </cs:public>
         <cs:public name="promote.site.standalone" actor="ant">
@@ -50,7 +50,7 @@
             <cs:prerequisites alias="action.requirements">
                 <cs:attribute name="site.p2" component="org.cfeclipse.standalone.update"/>
             </cs:prerequisites>
-            <cs:products alias="action.output" base="${cfeclipse.download.area}/update-standalone${site.suffix}/"/>
+            <cs:products alias="action.output" base="${standalone.p2.dir}"/>
         </cs:public>
         <cs:public name="promote.sites.to.archive" actor="ant">
             <cs:actorProperties>
@@ -60,7 +60,7 @@
             <cs:prerequisites alias="action.requirements">
                 <cs:attribute name="site.zips"/>
             </cs:prerequisites>
-            <cs:products alias="action.output" base="${buckminster.archive.area}/archivedsite${site.suffix}/"/>
+            <cs:products alias="action.output" base="${standalone.p2.zip.dir}"/>
         </cs:public>
 		<cs:public name="create.product" actor="ant">
 			<cs:actorProperties>
@@ -68,7 +68,7 @@
 				<cs:property key="targets" value="create.product"/>
 			</cs:actorProperties>
 			<cs:properties>
-				<cs:property key="product.name" value="standalone"/>
+				<cs:property key="product.name" value="cfeclipse"/>
 				<cs:property key="product.version" value="1.0.0"/>
 				<cs:property key="profile" value="Profile"/>
 				<cs:property key="iu" value="org.cfeclipse.cfml.product"/>
@@ -86,7 +86,7 @@
 				<cs:property key="targets" value="create.product.zip"/>
 			</cs:actorProperties>
 			<cs:properties>
-				<cs:property key="product.name" value="standalone"/>
+				<cs:property key="product.name" value="cfeclipse"/>
 				<cs:property key="product.version" value="1.0.0"/>
 			</cs:properties>
 			<cs:prerequisites>
@@ -100,13 +100,14 @@
     </cs:actions>
     <cs:groups>
         <cs:public name="site.zips">
-            <cs:attribute name="site.p2.zip" component="org.cfeclipse.update"/>
+            <cs:attribute name="promote.site.standalone"/>
+            <cs:attribute name="site.p2.zip" component="org.cfeclipse.standalone.update"/>
         </cs:public>
         <cs:public name="product">
-            <cs:attribute name="promote.site.standalone"/>
             <cs:attribute name="create.product"/>
         </cs:public>
         <cs:public name="product.zip">
+            <cs:attribute name="promote.sites.to.archive"/>
             <cs:attribute name="create.product.zip"/>
         </cs:public>
     </cs:groups>

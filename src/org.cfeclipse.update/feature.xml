@@ -15,4 +15,8 @@
          id="org.cfeclipse.cfml.feature"
          version="0.0.0"/>
 
+   <includes
+         id="org.cfeclipse.cfml.docsharesupport.feature"
+         version="0.0.0"/>
+
 </feature>
