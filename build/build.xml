@@ -27,6 +27,10 @@
 		<delete dir="${dist.dir}"/>
 		<mkdir dir="${dist.dir}"/>
 		<property name="script.dir" location="${src.dir}/org.cfeclipse.releng"/>
+		<echo message="branchTagPath : ${branchTagPath}"/>
+		<replaceregexp file="${script.dir}/build.cquery" byline="true"
+			match="branchTagPath.?=.?&quot;.*?&quot;" replace="branchTagPath=&quot;${branchTagPath}&quot;"
+		/>
 		<bucky.headless script="${script.dir}/promote.bmscript">
 			<sysproperty key="branchTagPath" value="${branchTagPath}" />
 			<sysproperty key="script.dir" value="${script.dir}" />
@@ -45,6 +49,9 @@
 		<delete dir="${dist.dir}"/>
 		<mkdir dir="${dist.dir}"/>
 		<property name="script.dir" location="${src.dir}/org.cfeclipse.standalone.releng"/>
+		<replaceregexp file="${script.dir}/build.cquery" byline="true"
+			match="branchTagPath.?=.?&quot;.*?&quot;" replace="branchTagPath=&quot;${branchTagPath}&quot;"
+		/>
 		<bucky.headless script="${script.dir}/product.bmscript">
 			<sysproperty key="branchTagPath" value="${branchTagPath}" />
 			<sysproperty key="script.dir" value="${script.dir}" />
