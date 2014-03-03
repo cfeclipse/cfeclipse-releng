@@ -1,4 +1,6 @@
 /dist
+/build/null*
+/build/scm.cache
 /src/cfeclipse
 .DS_Store
 temp
