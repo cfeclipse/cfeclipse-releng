@@ -114,13 +114,6 @@
 		<antcontrib:var name="remote" value="cfeclipse"/>
 		<cfdistro.setremote />
 		<loadproperties srcfile="${src.dir}/org.cfeclipse.standalone.releng/build.properties"/>
-		<scp port="${remote.host.port}" file="removePreviousBuilds.sh" todir="${remote.user}:${remote.user.pass}@${remote.host}:${remote.sites.dir}/${site.suffix}" trust="true" verbose="false" />
-		<sshexec host="${remote.host}"
-			username="${remote.user}"
-		 	port="${remote.host.port}"
-			password="${remote.user.pass}"
-			command="/bin/sh ${remote.sites.dir}/update${site.suffix}/removePreviousBuilds.sh"/>
-
 		<echo message="scp update site"/>
 		<deploy-scp toDir="${remote.user}@${remote.host}:${remote.p2.dir}" fromdir="${plugin.p2.dir}">
 			<scpfiles>
