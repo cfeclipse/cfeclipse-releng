@@ -1,11 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <src>
 	<project>
-		<src dest="@src.dir@/../" type="git" 
-		uri="/workspace/cfeclipse-releng/.git"
-		user="" password="" />
+		<src dest="@src.dir@/../" password="" type="git" 
+		 uri="/workspace/cfeclipse-releng/.git" user=""/>
 	<!-- project sources
-
          <src dest="@src.dir@/org.mxunit.eclipseplugin/" type="git"
          uri="https://github.com/mxunit/org.mxunit.eclipseplugin.git"
          user="" password="" />
@@ -13,9 +11,8 @@
          uri="https://github.com/mxunit/org.mxunit.eclipseplugin.feature.git"
          user="" password="" />
 	-->
-         <src dest="@src.dir@/cfeclipse/" type="git"
-         uri="git://github.com/cfeclipse/cfeclipse.git" branch="develop"
-         user="" password="" />
+         <src branch="@sc.cfeclipse.branch@" dest="@sc.cfeclipse.dest@" password="" 
+	  remote="@sc.cfeclipse.remote@" type="git" uri="@sc.cfeclipse.uri@" user=""/>
 	</project>
 	<sources>
 	</sources>

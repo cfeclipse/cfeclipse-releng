@@ -1,7 +1,6 @@
 #setpref 'org.eclipse.buckminster.pde.targetOS=macosx'
 #setpref 'org.eclipse.buckminster.pde.targetWS=cocoa'
 #setpref 'org.eclipse.buckminster.pde.targetArch=x86_64'
-
 setpref targetPlatformPath="${target.platform.dir}"
 #importtargetdefinition -A "${script.dir}/indigo.target"
 ##generate signing keys: keytool -genkeypair -keystore <path to keystore file> -alias signing

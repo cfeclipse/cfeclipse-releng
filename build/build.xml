@@ -9,8 +9,9 @@
 
 	<property name="deploy.quiet" value="true"/>
 	<property name="site.suffix" value="-dev"/>
+	<property name="merge.site" value="true"/>
 	<property name="plugin.p2.dir" value="${dist.dir}/update${site.suffix}"/>
-	<property name="plugin.p2.release.dir" value="${dist.dir}/oupdate"/>
+	<property name="plugin.p2.release.dir" value="http://cfeclipse.org/update${site.suffix}"/>
 	<property name="remote.cfeclipse.sites.dir" value="from.cfeclipse.properties"/>
 	<property name="remote.p2.dir" value="${remote.sites.dir}/update${site.suffix}"/>
 	<property name="standalone.p2.dir" location="${dist.dir}/standalone-update${site.suffix}"/>
@@ -20,11 +21,16 @@
 	<property name="remote.cfeclipse.standalone.p2.dir" location="${remote.standalone.dir}/update${site.suffix}"/>
 	<property name="branchTagPath" value="master"/>
 	
+	<target name="clean.all">
+		<delete dir="${dist.dir}"/>
+		<delete dir="${basedir}/workspace"/>
+		<delete dir="${basedir}/target-platform"/>
+	</target>
+
 	<target name="build">
 		<abspath property="src.dir" path="${src.dir}" />
 		<abspath property="dist.dir" path="${dist.dir}" />
 		<abspath property="product.zip.dir" path="${dist.dir}/product" />
-		<delete dir="${dist.dir}"/>
 		<mkdir dir="${dist.dir}"/>
 		<property name="script.dir" location="${src.dir}/org.cfeclipse.releng"/>
 		<echo message="branchTagPath : ${branchTagPath}"/>
@@ -39,7 +45,7 @@
 			<sysproperty key="product.zip.dir" value="${product.zip.dir}" />
 			<sysproperty key="plugin.p2.dir" value="${plugin.p2.dir}" />
 		</bucky.headless>
-		<antcontrib:runtarget target="merge.site.if.release" />
+		<antcontrib:runtarget target="merge.site.if.true" />
 	</target>
 
 	<target name="build.standalone">
@@ -62,13 +68,13 @@
 			<sysproperty key="standalone.p2.zip.dir" value="${standalone.p2.zip.dir}" />
 			<sysproperty key="plugin.p2.dir" value="${plugin.p2.dir}" />
 		</bucky.headless>
-		<antcontrib:runtarget target="merge.site.if.release" />
+		<antcontrib:runtarget target="merge.site.if.true" />
 	</target>	
 
-	<target name="merge.site.if.release">
+	<target name="merge.site.if.true">
 		<abspath property="src.dir" path="${src.dir}" />
 		<antcontrib:if>
-			<equals arg1="${site.suffix}" arg2=""/>
+			<equals arg1="${merge.site}" arg2="true"/>
 			<then>
 				<bucky.headless script="${src.dir}/org.cfeclipse.releng/merge.bmscript">
 					<sysproperty key="plugin.p2.source" value="${plugin.p2.release.dir}" />
