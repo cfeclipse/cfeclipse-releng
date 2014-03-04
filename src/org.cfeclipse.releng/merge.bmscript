@@ -1,0 +1,1 @@
+perform -D p2.source="${plugin.p2.source}" -D p2.dest="${plugin.p2.dest}" org.cfeclipse.releng#merge.site
