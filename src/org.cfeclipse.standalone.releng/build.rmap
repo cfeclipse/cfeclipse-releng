@@ -48,7 +48,7 @@
 	<rm:searchPath name="mxunit">
 		<rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
 			<rm:uri
-				format="http://mxunit.org/update" />
+				format="http://mxunit.org:80/update" />
 		</rm:provider>
 	</rm:searchPath>
 
@@ -63,7 +63,7 @@
     <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
       <rm:property key="buckminster.source" value="false"/>
       <rm:property key="buckminster.mutable" value="false"/>
-      <rm:uri format="{0}/eclipse/updates/4.2/R-4.2.1-201209141800">
+      <rm:uri format="{0}/releases/kepler">
         <bc:propertyRef key="eclipse.download.prefix"/>
       </rm:uri>
     </rm:provider>
@@ -72,7 +72,7 @@
     <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
       <rm:property key="buckminster.source" value="false"/>
       <rm:property key="buckminster.mutable" value="false"/>
-      <rm:uri format="{0}/releases/juno/201209280900">
+      <rm:uri format="{0}/releases/juno">
         <bc:propertyRef key="eclipse.download.prefix"/>
       </rm:uri>
     </rm:provider>
@@ -81,7 +81,7 @@
     <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
       <rm:property key="buckminster.source" value="false"/>
       <rm:property key="buckminster.mutable" value="false"/>
-      <rm:uri format="{0}/tools/orbit/downloads/drops/R20120526062928/repository">
+      <rm:uri format="{0}/tools/orbit/downloads/drops/R20140114142710/repository">
         <bc:propertyRef key="eclipse.download.prefix"/>
       </rm:uri>
     </rm:provider>
