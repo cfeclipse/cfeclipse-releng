@@ -25,12 +25,12 @@
 		<echo message="Destination: ${destination}"/>
 		<echo message="Profile: ${profile}"/>
 		<echo message="iu: ${iu}"/>
-		<echo message="java jar ${equinox.launcher.jar} -application org.eclipse.equinox.p2.director -artifactRepository ${repository}
+		<echo message="java -Declipse.p2.data.area=${destination}/p2 -Declipse.p2.profile=${profile} -cp ${equinox.launcher.jar} org.eclipse.equinox.launcher.Main -application org.eclipse.equinox.p2.director -artifactRepository ${repository}
 -metadataRepository ${repository} -destination ${destination} -bundlepool ${destination} -profile ${profile} 
 -profileProperties org.eclipse.update.install.features=true -installIU ${iu} -p2.os ${target.os} -p2.ws ${target.ws} -p2.arch ${target.arch}
--consoleLog -Declipse.p2.data.area=${destination}/p2 -Declipse.p2.profile=${profile}"/>
+-consoleLog"/>
 		<echo message="Configured OS -- os: ${target.os} ws: ${target.ws} arch:${target.arch}"/>
-		<java classname="org.eclipse.equinox.launcher.Main" classpath="${equinox.launcher.jar}" fork="true" logError="true" failonerror="true" outputproperty="laugh">
+		<java classname="org.eclipse.equinox.launcher.Main" classpath="${equinox.launcher.jar}" fork="true" logError="true" failonerror="false" outputproperty="laugh">
 			<arg value="-application"/>
 			<arg value="org.eclipse.equinox.p2.director"/>
 			<arg value="-artifactRepository"/>
