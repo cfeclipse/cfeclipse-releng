@@ -18,7 +18,7 @@
 	<property name="standalone.p2.zip.dir" location="${dist.dir}/standalone-archivedsite${site.suffix}/"/>
 	<property name="remote.cfeclipse.standalone.dir" value="from.cfeclipse.properties"/>
 	<property name="remote.cfeclipse.standalone.zip.dir" value="${remote.standalone.dir}"/>
-	<property name="remote.cfeclipse.standalone.p2.dir" location="${remote.standalone.dir}/update${site.suffix}"/>
+	<property name="remote.cfeclipse.standalone.p2.dir" value="${remote.standalone.dir}/update${site.suffix}"/>
 	<property name="branchTagPath" value="master"/>
 	
 	<target name="clean.all">
