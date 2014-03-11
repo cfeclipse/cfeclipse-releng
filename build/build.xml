@@ -68,7 +68,6 @@
 			<sysproperty key="standalone.p2.zip.dir" value="${standalone.p2.zip.dir}" />
 			<sysproperty key="plugin.p2.dir" value="${plugin.p2.dir}" />
 		</bucky.headless>
-		<antcontrib:runtarget target="merge.site.if.true" />
 	</target>	
 
 	<target name="merge.site.if.true">

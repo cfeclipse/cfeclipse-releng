@@ -48,7 +48,7 @@
 	<rm:searchPath name="mxunit">
 		<rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
 			<rm:uri
-				format="http://mxunit.org:80/update" />
+				format="http://cfeclipse.org/mxunit-update" />
 		</rm:provider>
 	</rm:searchPath>
 
