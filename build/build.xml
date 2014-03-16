@@ -9,6 +9,7 @@
 
 	<property name="deploy.quiet" value="true"/>
 	<property name="site.suffix" value="-dev"/>
+	<property name="generator.suffix" value="I"/>
 	<property name="merge.site" value="true"/>
 	<property name="plugin.p2.dir" value="${dist.dir}/update${site.suffix}"/>
 	<property name="plugin.p2.release.dir" value="http://cfeclipse.org/update${site.suffix}"/>
@@ -31,13 +32,15 @@
 		<abspath property="src.dir" path="${src.dir}" />
 		<abspath property="dist.dir" path="${dist.dir}" />
 		<abspath property="product.zip.dir" path="${dist.dir}/product" />
+		<delete dir="${plugin.p2.dir}"/>
 		<mkdir dir="${dist.dir}"/>
 		<property name="script.dir" location="${src.dir}/org.cfeclipse.releng"/>
-		<echo message="branchTagPath : ${branchTagPath}"/>
+		<echo message="branchTagPath:${branchTagPath} site.suffix:${site.suffix} generator.suffix:${generator.suffix}"/>
 		<replaceregexp file="${script.dir}/build.cquery" byline="true"
 			match="branchTagPath.?=.?&quot;.*?&quot;" replace="branchTagPath=&quot;${branchTagPath}&quot;"
 		/>
 		<bucky.headless script="${script.dir}/promote.bmscript">
+			<sysproperty key="generator.suffix" value="${generator.suffix}" />
 			<sysproperty key="branchTagPath" value="${branchTagPath}" />
 			<sysproperty key="script.dir" value="${script.dir}" />
 			<sysproperty key="src.dir" value="${src.dir}" />
@@ -59,6 +62,7 @@
 			match="branchTagPath.?=.?&quot;.*?&quot;" replace="branchTagPath=&quot;${branchTagPath}&quot;"
 		/>
 		<bucky.headless script="${script.dir}/product.bmscript">
+			<sysproperty key="generator.suffix" value="${generator.suffix}" />
 			<sysproperty key="branchTagPath" value="${branchTagPath}" />
 			<sysproperty key="script.dir" value="${script.dir}" />
 			<sysproperty key="src.dir" value="${src.dir}" />

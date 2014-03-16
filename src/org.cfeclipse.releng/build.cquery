@@ -6,6 +6,6 @@
     <cq:rootRequest name="org.cfeclipse.releng" componentType="buckminster"/>
     <cq:advisorNode namePattern="^org\.cfeclipse\..*\.source$" skipComponent="true"/>
     <cq:advisorNode namePattern="^org\.mxunit\..*\.source$" skipComponent="true"/>
-	<cq:advisorNode namePattern="^org\.cfeclipse\.cfml.*" sourceLevel="REQUIRE" useMaterialization="false" useTargetPlatform="false" branchTagPath="develop"/>
+	<cq:advisorNode namePattern="^org\.cfeclipse\.cfml.*" sourceLevel="REQUIRE" useMaterialization="false" useTargetPlatform="false" branchTagPath="master"/>
     <cq:advisorNode namePattern=".*" useTargetPlatform="false" useWorkspace="false"/>
 </cq:componentQuery>
