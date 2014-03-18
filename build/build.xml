@@ -36,9 +36,6 @@
 		<mkdir dir="${dist.dir}"/>
 		<property name="script.dir" location="${src.dir}/org.cfeclipse.releng"/>
 		<echo message="branchTagPath:${branchTagPath} site.suffix:${site.suffix} generator.suffix:${generator.suffix}"/>
-		<replaceregexp file="${script.dir}/build.cquery" byline="true"
-			match="branchTagPath.?=.?&quot;.*?&quot;" replace="branchTagPath=&quot;${branchTagPath}&quot;"
-		/>
 		<bucky.headless script="${script.dir}/promote.bmscript">
 			<sysproperty key="generator.suffix" value="${generator.suffix}" />
 			<sysproperty key="branchTagPath" value="${branchTagPath}" />
@@ -50,6 +47,7 @@
 		</bucky.headless>
 		
 		<antcontrib:runtarget target="merge.site.if.true" />
+		<antcontrib:runtarget target="p2.html" />
 	</target>
 
 	<target name="build.standalone">
@@ -59,9 +57,6 @@
 		<delete dir="${dist.dir}"/>
 		<mkdir dir="${dist.dir}"/>
 		<property name="script.dir" location="${src.dir}/org.cfeclipse.standalone.releng"/>
-		<replaceregexp file="${script.dir}/build.cquery" byline="true"
-			match="branchTagPath.?=.?&quot;.*?&quot;" replace="branchTagPath=&quot;${branchTagPath}&quot;"
-		/>
 		<bucky.headless script="${script.dir}/product.bmscript">
 			<sysproperty key="generator.suffix" value="${generator.suffix}" />
 			<sysproperty key="branchTagPath" value="${branchTagPath}" />
@@ -93,7 +88,8 @@
 		<antcontrib:propertyregex property="info.smaller"
 			input="${git.results}" global="true"
 			regexp="(?s)commit (\w{7}).+?Author\: (\w+[\w ]+).+?Date:.+?[\r\n]+[^\S]+(.+)"
-			select=" #CFML \1 \2 > \3"
+			description="\1 is commit hash, \2 is author, \3 is message"
+			select=" #CFML ${build.type} \2 > \3"
 			casesensitive="false" />
 		<!--
 		<input message="Tweet:" defaultvalue="${info.smaller}" addproperty="tweet" />
@@ -153,6 +149,28 @@
 				</fileset>
 			</scpfiles>
 		</deploy-scp>
+	</target>
+
+	<target name="p2.html">
+		<echo file="${temp.dir}/p2files.txt"><![CDATA[<table cellspacing="0" cellpadding="0"><tr><td colspan="2" style="border-top:0px; padding-top:3px;padding-left:8px;"><em>Files</em></td></tr>]]>
+		</echo>
+		<antcontrib:for param="file">
+			<path><fileset dir="${plugin.p2.dir}" includes="**/*.jar"/></path>
+			<sequential>
+				<antcontrib:propertyregex override="yes" property="p2file" input="@{file}" regexp=".*?${plugin.p2.dir}\/?(.+)" replace="\1"/>
+ 				<echo file="${temp.dir}/p2files.txt" append="true"><![CDATA[<tr><td valign="top" style="padding:5px"><a href="${p2file}">${p2file}</a></td><td valign="top" style="padding:5px"></td></tr>]]>
+				</echo>
+			</sequential>
+	  	</antcontrib:for>
+		<echo file="${temp.dir}/p2files.txt" append="true"><![CDATA[</table>]]></echo>
+		<loadfile srcfile="${temp.dir}/p2files.txt" property="p2files.table" />
+		<copy file="${src.dir}/org.cfeclipse.update/index.html" todir="${plugin.p2.dir}">
+		    <filterchain><expandproperties /></filterchain>
+		</copy>
+		<replaceregexp file="${plugin.p2.dir}/index.html"
+		match='(?s)&lt;div id="data"&gt;.*?&lt;\/div&gt;'
+		replace='&lt;div id="data"&gt;${line.separator}${p2files.table}${line.separator}&lt;\/div&gt;' byline="false" />
+		<delete dir="${temp.dir}" />		
 	</target>
 
 <!--
