@@ -89,7 +89,7 @@
 	</target>
 
 	<target name="build.release" depends="build.and.scp">
-		<git command="log" dir="${src.dir}/cfeclipse" verbose="false" use-jgit="false"><args><arg value="-n"/><arg value="1"/><arg value="origin/master"/></args></git>
+		<git command="log" dir="${src.dir}/cfeclipse" verbose="false" use-jgit="false"><args><arg value="-n"/><arg value="1"/><arg value="origin/${branchTagPath}"/></args></git>
 		<antcontrib:propertyregex property="info.smaller"
 			input="${git.results}" global="true"
 			regexp="(?s)commit (\w{7}).+?Author\: (\w+[\w ]+).+?Date:.+?[\r\n]+[^\S]+(.+)"
@@ -185,13 +185,7 @@ THIS IS THE ISSUE STUFF FOR DOCS - WHAT'S NEW
 		<property name="whatsnewfile" location="${basedir}/../src/cfeclipse/org.cfeclipse.cfml/doc/intro/doc/new.html" />
 		<replaceregexp file="${whatsnewfile}"
 		match='(?s)&lt;!-- closedtickets --&gt;.*?&lt;!-- /closedtickets --&gt;' 
-		replace="&lt;!-- closedtickets --&gt;${ticket.table}&lt;!-- /closedtickets --&gt;" byline="false" />
-		<replaceregexp file="${whatsnewfile}"
-		match='(?s)&lt;a\s+title="View\s+ticket"\s+href="[^"]+"&gt;(.*?)&lt;\/a&gt;' 
-		replace="\1" byline="false" flags="g" />
-		<replaceregexp file="${whatsnewfile}"
-		match='(?s)&lt;a\s+href="http:\/\/trac\.cfeclipse\.org[^"]+"&gt;(.*?)&lt;\/a&gt;' 
-		replace="\1" byline="false" flags="g" />
+		replace="&lt;!-- closedtickets --&gt;${line.separator}${ticket.table}${line.separator}&lt;!-- /closedtickets --&gt;" byline="false" />
 		<delete dir="${temp.dir}" />
 	</target>
 	
