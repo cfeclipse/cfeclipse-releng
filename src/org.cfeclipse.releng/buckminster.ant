@@ -15,11 +15,13 @@
 
 	<target name="merge.site">
 		<echo message="merging ${p2.source} into ${p2.dest}"/>
-		 <p2.mirror source="${p2.source}" destination="${p2.dest}-mirror">
-		 </p2.mirror>
- 		<p2.publish.featuresAndBundles source="${p2.dest}-mirror" repository="file://${p2.dest}">
-		</p2.publish.featuresAndBundles>
-		<delete dir="${p2.dest}-mirror"/>
+		<p2.composite.repository failOnExists="false">
+		  <repository location="${p2.dest}" name="CFEclipse Update Site" />
+		  <add>
+		    <repository location="${p2.source}" kind="M" />
+		    <repository location="${p2.source}" kind="A" />
+		  </add>
+		</p2.composite.repository>
 	</target>
 
 </project>
