@@ -15,13 +15,8 @@
 
 	<target name="merge.site">
 		<echo message="merging ${p2.source} into ${p2.dest}"/>
-		<p2.composite.repository failOnExists="false">
-		  <repository location="${p2.dest}" name="CFEclipse Update Site" />
-		  <add>
-		    <repository location="${p2.source}" kind="M" />
-		    <repository location="${p2.source}" kind="A" />
-		  </add>
-		</p2.composite.repository>
+		 <p2.mirror source="${p2.source}" destination="${p2.dest}">
+		 </p2.mirror>
 	</target>
 
 </project>

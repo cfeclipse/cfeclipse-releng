@@ -3,8 +3,10 @@
     <cq:property key="target.arch" value="*"/>
     <cq:property key="target.os" value="*"/>
     <cq:property key="target.ws" value="*"/>
+    <cq:property key="branchTagPath" value="master"/>
     <cq:rootRequest name="org.cfeclipse.standalone.releng" componentType="buckminster"/>
     <cq:advisorNode namePattern="^org\.cfeclipse\..*\.source$" skipComponent="true"/>
-	<cq:advisorNode namePattern="^org\.cfeclipse\.cfml\..*" branchTagPath="${env_var:branchTagPath}"/>
+	<cq:advisorNode namePattern="^org\.cfeclipse\.cfml\..*" filter="(branchTagPath=master)"/>
+	<cq:advisorNode namePattern="^org\.cfeclipse\.cfml\..*" filter="(branchTagPath=develop)" branchTagPath="develop"/>
     <cq:advisorNode namePattern=".*" useTargetPlatform="false" useWorkspace="false"/>
 </cq:componentQuery>
