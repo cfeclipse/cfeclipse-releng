@@ -9,5 +9,8 @@
     <cq:advisorNode namePattern="^org\.mxunit\..*\.source$" skipComponent="true"/>
 	<cq:advisorNode namePattern="^org\.cfeclipse\.cfml.*" sourceLevel="REQUIRE" useMaterialization="false" useTargetPlatform="false" filter="(branchTagPath=master)"/>
 	<cq:advisorNode namePattern="^org\.cfeclipse\.cfml.*" sourceLevel="REQUIRE" useMaterialization="false" useTargetPlatform="false" filter="(branchTagPath=develop)" branchTagPath="develop"/>
+	<cq:advisorNode namePattern="^cfml\.parsing" componentType="unknown" mutableLevel="REQUIRE" sourceLevel="REQUIRE"/>
+	<cq:advisorNode namePattern="^cfml\.dictionary" componentType="unknown" mutableLevel="REQUIRE" sourceLevel="REQUIRE"/>
     <cq:advisorNode namePattern=".*" useTargetPlatform="false" useWorkspace="false"/>
+    
 </cq:componentQuery>

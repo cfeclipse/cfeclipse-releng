@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rm:rmap xmlns:bc="http://www.eclipse.org/buckminster/Common-1.0" xmlns:rm="http://www.eclipse.org/buckminster/RMap-1.0">
+<rm:rmap xmlns:bc="http://www.eclipse.org/buckminster/Common-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:rm="http://www.eclipse.org/buckminster/RMap-1.0" xmlns:mp="http://www.eclipse.org/buckminster/MavenProvider-1.0">
   <rm:property key="eclipse.download.prefix" value="http://download.eclipse.org"/>
   <rm:property key="eclipse.svn.prefix" value="http://dev.eclipse.org/svnroot"/>
   <rm:property key="build.type" value="R"/>
   <rm:property key="git.clone.dir" value="${src.dir}"/>
-  <rm:property key="buckminster.clone" value="cfeclipse"/>
+  <rm:property key="cfeclipse.git" value="cfeclipse"/>
+  <rm:property key="cfparser.git" value="cfparser"/>
   <rm:property key="mxunit.clone" value="mxunit"/>
+  <rm:property key="project.groupId" value="com.github.cfparser"/>
+
   <rm:locator pattern="^org\.cfeclipse\.(releng|update)$" searchPathRef="cfeclipse-releng"/>
   <rm:locator pattern="^org\.cfeclipse\.standalone\.update$" searchPathRef="cfeclipse-releng"/>
-  <rm:locator pattern="^org\.cfeclipse\.cfml(.+)?" searchPathRef="buckminster"/>
-  <rm:locator pattern="^org\.cfeclipse\.cfeclipsecall(\..+)?" searchPathRef="buckminster"/>
+  <rm:locator pattern="^org\.cfeclipse\.cfml(.+)?" searchPathRef="cfeclipseRepo"/>
+  <rm:locator pattern="^org\.cfeclipse\.cfeclipsecall(\..+)?" searchPathRef="cfeclipseRepo"/>
   <rm:locator pattern="^org\.mxunit\..*" searchPathRef="mxunit" />
 
   <rm:locator pattern="^org\.eclipse\.egit\.fetchfactory(\..+)?$" searchPathRef="git.pde"/>
@@ -20,9 +23,15 @@
   <rm:locator pattern="^org\.tmatesoft(\..+)?" searchPathRef="subclipse"/>
   <rm:locator pattern="^com\.trilead\.ssh2(\..+)?" searchPathRef="subclipse"/>
   <rm:locator pattern="^net\.java\.dev\.jna(\..+)?" searchPathRef="subclipse"/>
-  <rm:locator searchPathRef="platform" failOnError="false"/>
+  <rm:locator pattern="^org\.eclipse\.ecf(\..+)?" searchPathRef="ecf"/>
+
+  <rm:locator pattern="^cfml\.parsing" searchPathRef="cfparserRepo"/>
+  <rm:locator pattern="^cfml\.dictionary" searchPathRef="cfparserRepo"/>
+
+  <rm:locator searchPathRef="platform" failOnError="false" />
+  <rm:locator searchPathRef="platform-update" failOnError="false"/>
   <rm:locator searchPathRef="neon" failOnError="false"/>
-  <rm:locator searchPathRef="orbit"/>
+  <rm:locator searchPathRef="orbit" failOnError="false"/>
 
   <rm:searchPath name="cfeclipse-releng">
 		<rm:provider componentTypes="buckminster,osgi.bundle,eclipse.feature"
@@ -33,14 +42,24 @@
 			</rm:uri>
 		</rm:provider>
   </rm:searchPath>
-
-
-  <rm:searchPath name="buckminster">
+ 
+  <rm:searchPath name="cfeclipseRepo">
     <rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="git">
       <rm:property key="git.remote.uri" value="git://github.com/cfeclipse/cfeclipse.git"/>
       <rm:uri format="{0}/{1},{2}">
         <bc:propertyRef key="git.clone.dir"/>
-        <bc:propertyRef key="buckminster.clone"/>
+        <bc:propertyRef key="cfeclipse.git"/>
+        <bc:propertyRef key="buckminster.component"/>
+      </rm:uri>
+    </rm:provider>
+  </rm:searchPath>
+
+  <rm:searchPath name="cfparserRepo">
+    <rm:provider componentTypes="unknown" readerType="git">
+      <rm:property key="git.remote.uri" value="git://github.com/cfparser/cfparser.git"/>
+      <rm:uri format="{0}/{1},{2}">
+        <bc:propertyRef key="git.clone.dir"/>
+        <bc:propertyRef key="cfparser.git"/>
         <bc:propertyRef key="buckminster.component"/>
       </rm:uri>
     </rm:provider>
@@ -84,7 +103,28 @@
         <bc:propertyRef key="eclipse.download.prefix"/>
       </rm:uri>
     </rm:provider>
+    <rm:provider xsi:type="mp:MavenProvider" readerType="maven2" componentTypes="maven"
+      mutable="false" source="false"
+      transitive="true">
+      <rm:uri format="http://repo1.maven.org/maven2"/>
+<!--
+      <mp:mappings>
+		<mp:entry artifactId="junit" groupId="junit" name="junit" />
+		<mp:entry artifactId="jericho-html" groupId="net.htmlparser.jaricho" name="net.htmlparser.jericho-html" />
+      </mp:mappings>
+      <mp:scopes>
+		<mp:scope name="compile" exclude="false" />
+      </mp:scopes>
+ -->
+    </rm:provider>
   </rm:searchPath>
+
+	<rm:searchPath name="platform-update">
+		<rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
+			<rm:uri format="http://download.eclipse.org/eclipse/updates/4.5" />
+		</rm:provider>
+	</rm:searchPath>
+
   <rm:searchPath name="neon">
     <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
       <rm:property key="buckminster.source" value="false"/>
@@ -107,7 +147,7 @@
     <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
       <rm:property key="buckminster.source" value="false"/>
       <rm:property key="buckminster.mutable" value="false"/>
-      <rm:uri format="http://subclipse.tigris.org/update_1.8.x"/>
+      <rm:uri format="http://subclipse.tigris.org/update_1.12.x"/>
     </rm:provider>
   </rm:searchPath>
   <rm:searchPath name="mylyn">
@@ -117,11 +157,18 @@
       <rm:uri format="http://download.eclipse.org/mylyn/releases/latest"/>
     </rm:provider>
   </rm:searchPath>
+  <rm:searchPath name="ecf">
+    <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
+      <rm:property key="buckminster.source" value="false"/>
+      <rm:property key="buckminster.mutable" value="false"/>
+      <rm:uri format="http://download.eclipse.org/rt/ecf/3.11.0/site.p2"/>
+    </rm:provider>
+  </rm:searchPath>
   <rm:searchPath name="git">
     <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
       <rm:property key="buckminster.source" value="false"/>
       <rm:property key="buckminster.mutable" value="false"/>
-      <rm:uri format="{0}/egit/updates-2.0">
+      <rm:uri format="{0}/egit/updates">
         <bc:propertyRef key="eclipse.download.prefix"/>
       </rm:uri>
     </rm:provider>

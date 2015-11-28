@@ -3,6 +3,13 @@
     <cs:dependencies>
         <cs:dependency name="org.cfeclipse.update" componentType="eclipse.feature"/>
         <cs:dependency name="org.cfeclipse.standalone.update" componentType="eclipse.feature"/>
+        <cs:dependency name="org.cfeclipse.cfml.product" componentType="osgi.bundle"/>
+        <!-- 
+        <cs:dependency name="com.github.cfparser/cfml.parsing" componentType="maven"/>
+        <cs:dependency name="com.github.cfparser/cfml.dictionary" componentType="maven"/>
+         -->
+        <cs:dependency name="cfml.parsing" componentType="unknown"/>
+        <cs:dependency name="cfml.dictionary" componentType="unknown"/>
         <cs:dependency name="org.eclipse.equinox.executable" componentType="eclipse.feature"/>
         <cs:dependency name="org.eclipse.platform" componentType="osgi.bundle"/>
         <cs:dependency name="org.eclipse.ui" componentType="osgi.bundle"/>
@@ -18,6 +25,7 @@
         <cs:dependency name="org.eclipse.ui.workbench" componentType="osgi.bundle"/>
         <cs:dependency name="org.eclipse.ui.workbench.texteditor" componentType="osgi.bundle"/>
         <cs:dependency name="org.eclipse.e4.ui.workbench" componentType="osgi.bundle"/>
+        <cs:dependency name="org.eclipse.platform.feature.group" componentType="osgi.bundle"/>
         <cs:dependency name="org.eclipse.rcp" componentType="osgi.bundle"/>
         <!--
         <cs:dependency name="org.eclipse.emf" componentType="osgi.bundle"/>

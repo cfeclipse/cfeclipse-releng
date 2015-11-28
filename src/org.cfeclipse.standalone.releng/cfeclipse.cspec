@@ -16,6 +16,7 @@
         <cs:dependency name="org.eclipse.ui.navigator" componentType="osgi.bundle"/>
         <cs:dependency name="org.eclipse.ui.views" componentType="osgi.bundle"/>
         <cs:dependency name="org.eclipse.ui.workbench" componentType="osgi.bundle"/>
+        <cs:dependency name="org.eclipse.e4.ui.workbench" componentType="osgi.bundle"/>
         <cs:dependency name="org.eclipse.ui.workbench.texteditor" componentType="osgi.bundle"/>
         <cs:dependency name="org.eclipse.rcp" componentType="osgi.bundle"/>
         <!--

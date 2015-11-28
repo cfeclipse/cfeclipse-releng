@@ -5,11 +5,14 @@
   <rm:property key="build.type" value="R"/>
   <rm:property key="git.clone.dir" value="${src.dir}"/>
   <rm:property key="buckminster.clone" value="cfeclipse"/>
+  <rm:property key="cfparser.git" value="cfparser"/>
   <rm:locator pattern="^org\.cfeclipse\.(releng|update)$" searchPathRef="cfeclipse-releng"/>
   <rm:locator pattern="^org\.cfeclipse\.standalone(\..+)?" searchPathRef="cfeclipse-releng"/>
   <rm:locator pattern="^org\.cfeclipse\.cfml(\..+)?" searchPathRef="buckminster"/>
   <rm:locator pattern="^org\.cfeclipse\.cfeclipsecall(\..+)?" searchPathRef="buckminster"/>
   <rm:locator pattern="^org\.mxunit\..*" searchPathRef="mxunit" />
+  <rm:locator pattern="^cfml\.parsing" searchPathRef="cfparserRepo"/>
+  <rm:locator pattern="^cfml\.dictionary" searchPathRef="cfparserRepo"/>
 
   <rm:locator pattern="^org\.eclipse\.egit\.fetchfactory(\..+)?$" searchPathRef="git.pde"/>
   <rm:locator pattern="^org\.eclipse\.[ej]git(\..+)?$" searchPathRef="git"/>
@@ -20,7 +23,7 @@
   <rm:locator pattern="^com\.trilead\.ssh2(\..+)?" searchPathRef="subclipse"/>
   <rm:locator pattern="^net\.java\.dev\.jna(\..+)?" searchPathRef="subclipse"/>
   <rm:locator searchPathRef="platform" failOnError="false"/>
-  <rm:locator searchPathRef="juno" failOnError="false"/>
+  <rm:locator searchPathRef="neon" failOnError="false"/>
   <rm:locator searchPathRef="orbit"/>
 
   <rm:searchPath name="cfeclipse-releng">
@@ -33,13 +36,23 @@
 		</rm:provider>
   </rm:searchPath>
 
-
   <rm:searchPath name="buckminster">
     <rm:provider componentTypes="osgi.bundle,eclipse.feature,buckminster" readerType="git">
       <rm:property key="git.remote.uri" value="git://github.com/cfeclipse/cfeclipse.git"/>
       <rm:uri format="{0}/{1},{2}">
         <bc:propertyRef key="git.clone.dir"/>
         <bc:propertyRef key="buckminster.clone"/>
+        <bc:propertyRef key="buckminster.component"/>
+      </rm:uri>
+    </rm:provider>
+  </rm:searchPath>
+
+  <rm:searchPath name="cfparserRepo">
+    <rm:provider componentTypes="maven" readerType="git">
+      <rm:property key="git.remote.uri" value="git://github.com/cfparser/cfparser.git"/>
+      <rm:uri format="{0}/{1}">
+        <bc:propertyRef key="git.clone.dir"/>
+        <bc:propertyRef key="cfparser.git"/>
         <bc:propertyRef key="buckminster.component"/>
       </rm:uri>
     </rm:provider>
@@ -63,16 +76,16 @@
     <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
       <rm:property key="buckminster.source" value="false"/>
       <rm:property key="buckminster.mutable" value="false"/>
-      <rm:uri format="{0}/releases/kepler">
+      <rm:uri format="{0}/releases/mars">
         <bc:propertyRef key="eclipse.download.prefix"/>
       </rm:uri>
     </rm:provider>
   </rm:searchPath>
-  <rm:searchPath name="juno">
+  <rm:searchPath name="neon">
     <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
       <rm:property key="buckminster.source" value="false"/>
       <rm:property key="buckminster.mutable" value="false"/>
-      <rm:uri format="{0}/releases/juno">
+      <rm:uri format="{0}/releases/neon">
         <bc:propertyRef key="eclipse.download.prefix"/>
       </rm:uri>
     </rm:provider>
@@ -81,7 +94,7 @@
     <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
       <rm:property key="buckminster.source" value="false"/>
       <rm:property key="buckminster.mutable" value="false"/>
-      <rm:uri format="{0}/tools/orbit/downloads/drops/R20140114142710/repository">
+      <rm:uri format="{0}/tools/orbit/downloads/drops/R20150821153341/repository">
         <bc:propertyRef key="eclipse.download.prefix"/>
       </rm:uri>
     </rm:provider>
@@ -90,7 +103,7 @@
     <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
       <rm:property key="buckminster.source" value="false"/>
       <rm:property key="buckminster.mutable" value="false"/>
-      <rm:uri format="http://subclipse.tigris.org/update_1.8.x"/>
+      <rm:uri format="http://subclipse.tigris.org/update_1.12.x"/>
     </rm:provider>
   </rm:searchPath>
   <rm:searchPath name="mylyn">
@@ -104,7 +117,7 @@
     <rm:provider componentTypes="osgi.bundle,eclipse.feature" readerType="p2" source="false" mutable="false">
       <rm:property key="buckminster.source" value="false"/>
       <rm:property key="buckminster.mutable" value="false"/>
-      <rm:uri format="{0}/egit/updates-2.0">
+      <rm:uri format="{0}/egit/updates">
         <bc:propertyRef key="eclipse.download.prefix"/>
       </rm:uri>
     </rm:provider>

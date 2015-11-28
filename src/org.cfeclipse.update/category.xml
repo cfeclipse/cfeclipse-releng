@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature id="org.eclipse.cfml.feature" version="0.0.0">
+   <feature id="org.cfeclipse.cfml.feature" version="0.0.0">
       <category name="cfeclipse"/>
    </feature>
    <feature id="org.cfeclipse.cfml.docsharesupport.feature" version="0.0.0">

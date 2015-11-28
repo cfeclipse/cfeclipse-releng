@@ -17,7 +17,13 @@
         <cs:dependency name="org.eclipse.ui.views" componentType="osgi.bundle"/>
         <cs:dependency name="org.eclipse.ui.workbench" componentType="osgi.bundle"/>
         <cs:dependency name="org.eclipse.ui.workbench.texteditor" componentType="osgi.bundle"/>
-        <cs:dependency name="org.eclipse.rcp" componentType="osgi.bundle"/>
+        <cs:dependency name="org.eclipse.e4.ui.workbench" componentType="osgi.bundle"/>
+        <cs:dependency name="org.cfeclipse.cfml.product" componentType="osgi.bundle"/>
+        <cs:dependency name="cfml.parsing" componentType="maven"/>
+        <cs:dependency name="cfml.dictionary" componentType="maven"/>
+        <cs:dependency name="org.eclipse.equinox.executable" componentType="eclipse.feature"/>
+        <cs:dependency name="org.eclipse.equinox.p2.user.ui" componentType="eclipse.feature"/>
+        <cs:dependency name="org.eclipse.rcp" componentType="eclipse.feature"/>
         <!--
         <cs:dependency name="org.eclipse.emf" componentType="osgi.bundle"/>
         <cs:dependency name="com.ibm.icu" componentType="osgi.bundle"/>
@@ -71,10 +77,11 @@
 				<cs:property key="product.name" value="cfeclipse"/>
 				<cs:property key="product.version" value="1.0.0"/>
 				<cs:property key="profile" value="Profile"/>
-				<cs:property key="iu" value="org.cfeclipse.cfml.product"/>
+				<cs:property key="iu" value="org.cfeclipse.cfml.product.product"/>
 			</cs:properties>
-			<cs:prerequisites alias="repository">
+			<cs:prerequisites alias="repositories">
                 <cs:attribute name="site.p2" component="org.cfeclipse.standalone.update"/>
+                <cs:attribute name="site.tp"/>
 			</cs:prerequisites>
 			<cs:products alias="destination" base="${product.zip.dir}">
 				<cs:path path="${product.name}.${target.os}.${target.ws}.${target.arch}/"/>
@@ -96,7 +103,16 @@
 				<cs:path path="zip/"/>
 			</cs:products>
 		</cs:public>
-		
+		<cs:public name="site.tp" actor="ant">
+			<cs:actorProperties>
+				<cs:property key="buildFile" value="product.ant" />
+				<cs:property key="targets" value="create.target.platform.repository" />
+			</cs:actorProperties>
+			<cs:properties>
+				<cs:property key="repository.name" value="CFEclipse Platform Site" />
+			</cs:properties>
+			<cs:products alias="output" base="${buckminster.output}/site.tp/" />
+		</cs:public>
     </cs:actions>
     <cs:groups>
         <cs:public name="site.zips">
