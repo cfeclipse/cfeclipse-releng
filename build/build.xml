@@ -36,18 +36,12 @@
 		<mkdir dir="${dist.dir}"/>
 		<property name="script.dir" location="${src.dir}/org.cfeclipse.releng"/>
 		<echo message="branchTagPath:${branchTagPath} site.suffix:${site.suffix} generator.suffix:${generator.suffix}"/>
-		<bucky.headless script="${script.dir}/promote.bmscript">
-			<sysproperty key="generator.suffix" value="${generator.suffix}" />
-			<sysproperty key="branchTagPath" value="${branchTagPath}" />
-			<sysproperty key="script.dir" value="${script.dir}" />
-			<sysproperty key="src.dir" value="${src.dir}" />
-			<sysproperty key="dist.dir" value="${dist.dir}" />
-			<sysproperty key="product.zip.dir" value="${product.zip.dir}" />
-			<sysproperty key="plugin.p2.dir" value="${plugin.p2.dir}" />
-		</bucky.headless>
-		
-		<antcontrib:runtarget target="merge.site.if.true" />
-		<antcontrib:runtarget target="p2.html" />
+ 		<maven-run basedir="${src.dir}/cfeclipse/"
+             options="-Dplugin.p2.dir=${plugin.p2.dir}"
+             goal="clean verify"
+             resultproperty="maven.build.result"/>
+         <echo message="${maven.build.result}" />
+         <antcontrib:runtarget target="p2.html" />
 	</target>
 
 	<target name="build.standalone">
@@ -69,19 +63,6 @@
 			<sysproperty key="plugin.p2.dir" value="${plugin.p2.dir}" />
 		</bucky.headless>
 	</target>	
-
-	<target name="merge.site.if.true">
-		<abspath property="src.dir" path="${src.dir}" />
-		<antcontrib:if>
-			<equals arg1="${merge.site}" arg2="true"/>
-			<then>
-				<bucky.headless script="${src.dir}/org.cfeclipse.releng/merge.bmscript">
-					<sysproperty key="plugin.p2.source" value="${plugin.p2.release.dir}" />
-					<sysproperty key="plugin.p2.dest" value="${plugin.p2.dir}" />
-				</bucky.headless>
-			</then>
-		</antcontrib:if>
-	</target>
 
 	<target name="build.release" depends="build.and.scp">
 		<git command="log" dir="${src.dir}/cfeclipse" verbose="false" use-jgit="false"><args><arg value="-n"/><arg value="1"/><arg value="origin/${branchTagPath}"/></args></git>
