@@ -37,7 +37,7 @@
 		<property name="script.dir" location="${src.dir}/org.cfeclipse.releng"/>
 		<echo message="branchTagPath:${branchTagPath} site.suffix:${site.suffix} generator.suffix:${generator.suffix}"/>
  		<maven-run basedir="${src.dir}/cfeclipse/"
-             options="-Dplugin.p2.dir=${plugin.p2.dir} -Dbuild.type=${build.type}"
+             options="-Dplugin.p2.dir=${plugin.p2.dir} -Dbuild.type=${build.type} -Dsite.suffix=${site.suffix}"
              goal="clean verify"
              resultproperty="maven.build.result"/>
          <echo message="${maven.build.result}" />
