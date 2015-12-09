@@ -10,7 +10,7 @@
 	<property name="deploy.quiet" value="true"/>
 	<property name="site.suffix" value="-dev"/>
 	<property name="generator.suffix" value="I"/>
-	<property name="merge.site" value="true"/>
+	<property name="merge.updates" value="false"/>
 	<property name="plugin.p2.dir" value="${dist.dir}/update${site.suffix}"/>
 	<property name="plugin.p2.release.dir" value="http://cfeclipse.org/update${site.suffix}"/>
 	<property name="remote.cfeclipse.sites.dir" value="from.cfeclipse.properties"/>
@@ -20,7 +20,7 @@
 	<property name="remote.cfeclipse.standalone.dir" value="from.cfeclipse.properties"/>
 	<property name="remote.cfeclipse.standalone.zip.dir" value="${remote.standalone.dir}"/>
 	<property name="remote.cfeclipse.standalone.p2.dir" value="${remote.standalone.dir}/update${site.suffix}"/>
-	<property name="branchTagPath" value="master"/>
+	<property name="sign" value="false"/>
 	
 	<target name="clean.all">
 		<delete dir="${dist.dir}"/>
@@ -37,7 +37,7 @@
 		<property name="script.dir" location="${src.dir}/org.cfeclipse.releng"/>
 		<echo message="branchTagPath:${branchTagPath} site.suffix:${site.suffix} generator.suffix:${generator.suffix}"/>
  		<maven-run basedir="${src.dir}/cfeclipse/"
-             options="-Dplugin.p2.dir=${plugin.p2.dir} -Dbuild.type=${build.type} -Dsite.suffix=${site.suffix}"
+             options="-Dplugin.p2.dir=${plugin.p2.dir} -Dbuild.type=${build.type} -Dsite.suffix=${site.suffix} -Dsign=${sign} -Dmerge.updates=${merge.updates}"
              goal="clean verify"
              resultproperty="maven.build.result"/>
          <echo message="${maven.build.result}" />
