@@ -2,7 +2,7 @@
 <src>
 	<project>
 		<src dest="@src.dir@/../" password="" type="git" 
-		 uri="/workspace/cfeclipse-releng/.git" user=""/>
+		 uri="@sc.cfeclipse.releng.uri@" user=""/>
 	<!-- project sources
          <src dest="@src.dir@/org.mxunit.eclipseplugin/" type="git"
          uri="https://github.com/mxunit/org.mxunit.eclipseplugin.git"
