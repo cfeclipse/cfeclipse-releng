@@ -160,8 +160,8 @@ THIS IS THE ISSUE STUFF FOR DOCS - WHAT'S NEW
 		
 	<target name="update-whatsnew">
 		<mkdir dir="${temp.dir}" />
-		<property name="milestone.number" value="1"/>
-		<get src="https://api.github.com/repos/cfeclipse/cfeclipse/issues?state=closed&amp;milestone=${milestone.number}" dest="${temp.dir}/tickets.json" />
+		<property name="whatsnew.milestone.id" value="1"/>
+		<get src="https://api.github.com/repos/cfeclipse/cfeclipse/issues?state=closed&amp;milestone=${whatsnew.milestone.id}" dest="${temp.dir}/tickets.json" />
 		<json2xml file="${temp.dir}/tickets.json" property="tickets.xml" />
 		<echo file="${temp.dir}/tickets.xml" message="${tickets.xml}" />
 		<echo file="${temp.dir}/tickets.txt"><![CDATA[<table cellspacing="0" cellpadding="0"><tr><td colspan="2" style="border-top:0px; padding-top:3px;padding-left:8px;"><em>Closed Tickets</em></td></tr>]]>
@@ -172,6 +172,7 @@ THIS IS THE ISSUE STUFF FOR DOCS - WHAT'S NEW
 				<param name="ticket" path="number/text()" />
 				<param name="summary" path="title/text()" />
 				<actions>
+				<echo message="@{href} @{ticket} @{summary}" />
 <echo file="${temp.dir}/tickets.txt" append="true"><![CDATA[<tr><td valign="top" style="padding:5px"><a href="@{href}">@{ticket}</a></td><td valign="top" style="padding:5px">@{summary}</td></tr>]]>
 </echo>
 				</actions>
