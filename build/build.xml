@@ -21,14 +21,18 @@
 	<property name="remote.cfeclipse.standalone.zip.dir" value="${remote.standalone.dir}"/>
 	<property name="remote.cfeclipse.standalone.p2.dir" value="${remote.standalone.dir}/update${site.suffix}"/>
 	<property name="sign" value="false"/>
+	<available file="${src.dir}/cfeclipse/" type="dir" property="cfeclipsedir.isthere" />
 	
 	<target name="clean.all">
 		<delete dir="${dist.dir}"/>
 		<delete dir="${basedir}/workspace"/>
 		<delete dir="${basedir}/target-platform"/>
 	</target>
+	
+	<target name="cfeclipse.checkout" depends="project.update" unless="cfeclipsedir.isthere">
+	</target>
 
-	<target name="build">
+	<target name="build" depends="cfeclipse.checkout">
 		<abspath property="src.dir" path="${src.dir}" />
 		<abspath property="dist.dir" path="${dist.dir}" />
 		<abspath property="product.zip.dir" path="${dist.dir}/product" />
