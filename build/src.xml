@@ -2,7 +2,7 @@
 <src>
 	<project>
 		<src dest="@src.dir@/../" password="" type="git" 
-		 uri="@sc.cfeclipse.releng.uri@" user=""/>
+		 uri="@sc.cfeclipse.releng.uri@" user="" remote="origin" branch="master"/>
 	<!-- project sources
          <src dest="@src.dir@/org.mxunit.eclipseplugin/" type="git"
          uri="https://github.com/mxunit/org.mxunit.eclipseplugin.git"
