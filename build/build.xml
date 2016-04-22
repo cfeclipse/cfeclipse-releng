@@ -29,7 +29,8 @@
 		<delete dir="${basedir}/target-platform"/>
 	</target>
 	
-	<target name="cfeclipse.checkout" depends="project.update" unless="cfeclipsedir.isthere">
+	<target name="cfeclipse.checkout" unless="cfeclipsedir.isthere">
+         <antcontrib:runtarget target="project.update" />
 	</target>
 
 	<target name="build" depends="cfeclipse.checkout">
